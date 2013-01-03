@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openbox_menu>
+	<menu id="root-menu" label="OpenBox 3">
+		<item label="Xterm">
+			<action name="Execute">
+				<execute>xterm</execute>
+			</action>
+		</item>
+		<separator/>
+		<menu id="2" label="Editors">
+			<item label="GVim">
+				<action name="Execute">
+					<execute>gvim</execute>
+				</action>
+			</item>
+			<item label="Leafpad">
+				<action name="Execute">
+					<execute>leafpad</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="6" label="Graphics">
+			<item label="Mirage">
+				<action name="Execute">
+					<execute>mirage</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="5" label="Network">
+			<item label="Opera">
+				<action name="Execute">
+					<execute>opera</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="19" label="File">
+			<item label="ROX">
+				<action name="Execute">
+					<execute>rox</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="27" label="Settings">
+			<item label="LXAppearance">
+				<action name="Execute">
+					<execute>lxappearance</execute>
+				</action>
+			</item>
+			<item label="TintWizard">
+				<action name="Execute">
+					<execute>tintwizard</execute>
+				</action>
+			</item>
+			<item label="OBconf">
+				<action name="Execute">
+					<execute>obconf</execute>
+				</action>
+			</item>
+			<item label="OBmenu">
+				<action name="Execute">
+					<execute>obmenu</execute>
+				</action>
+			</item>
+		</menu>
+		<menu id="40" label="OpenBox">
+			<menu id="client-list-menu"/>
+			<item label="Reconfigure">
+				<action name="Reconfigure"/>
+			</item>
+			<separator/>
+			<item label="Exit">
+				<action name="Exit"/>
+			</item>
+		</menu>
+		<separator/>
+		<item label="Exit">
+			<action name="Exit"/>
+		</item>
+	</menu>
+</openbox_menu>
