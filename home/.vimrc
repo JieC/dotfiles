@@ -1,41 +1,54 @@
 set nocompatible
 set shortmess=atI " Quick start
 
+" ========== Path Settings ==========
+if has('win32')
+    let $VIMFILES=$VIM.'/vimfiles'
+    let $HOME=$VIMFILES
+else
+    let $VIMFILES=$HOME.'/.vim'
+endif
+
 " ========== NeoBundle Init ==========
 
 " Check if NeoBundle installed
-let bundle_readme=expand('~/.vim/bundle/neobundle.vim/README.md')
-if !filereadable(bundle_readme)
-    echo "Installing NeoBundle.."
-    echo ""
-    silent !mkdir -p ~/.vim/bundle
-    silent !git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+let $BUNDLE=expand($VIMFILES.'/bundle')
+let $NEOBUNDLE=expand($BUNDLE.'/neobundle.vim')
+if !isdirectory($NEOBUNDLE)
+    echo 'Installing NeoBundle..'
+    echo ''
+    exe 'silent !mkdir -p' '"'.$BUNDLE.'"'
+    exe 'silent !git clone https://github.com/Shougo/neobundle.vim' '"'.$NEOBUNDLE.'"'
 endif
 
 if has('vim_starting')
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
+    set runtimepath+=$NEOBUNDLE
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+call neobundle#rc($BUNDLE)
 
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " My Bundles here:
-NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make -f make_unix.mak'}}
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'https://github.com/Shougo/vimproc', {'build' : {'unix': 'make -f make_unix.mak'}}
+NeoBundle 'https://github.com/tpope/vim-fugitive'
+"NeoBundle 'https://github.com/Lokaltog/vim-easymotion'
+NeoBundle 'https://github.com/altercation/vim-colors-solarized'
+NeoBundle 'https://github.com/Lokaltog/vim-powerline'
+NeoBundle 'https://github.com/Shougo/vimshell'
+NeoBundle 'https://github.com/Shougo/unite.vim'
+NeoBundle 'https://github.com/Shougo/vimfiler'
+NeoBundle 'https://github.com/Shougo/neocomplcache'
+NeoBundle 'https://github.com/Shougo/neosnippet'
 
-filetype plugin indent on " Required!
+filetype plugin indent on     " Required!
 
 " Installation check.
 if neobundle#exists_not_installed_bundles()
     echomsg 'Not installed bundles : ' .
         \ string(neobundle#get_not_installed_bundle_names())
     echomsg 'Please execute ":NeoBundleInstall" command.'
-    echomsg ''
 endif
 
 " ============ Encodeing ============
@@ -43,6 +56,7 @@ set encoding=utf-8
 set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+set fileformats=unix,dos
 
 " ========== General Config ==========
 syntax on           " Syntax highlighting
@@ -69,8 +83,11 @@ set noswapfile
 set nobackup
 
 " =========== Persistent Undo =======
-silent !mkdir ~/.vim/.undo > /dev/null 2>&1
-set undodir=~/.vim/.undo
+let $UNDODIR=$VIMFILES.'/.undo'
+if !isdirectory($UNDODIR)
+    exe 'silent !mkdir' '"'.$UNDODIR.'"'
+endif
+set undodir=$UNDODIR
 set undofile
 
 " ============== Indentation ===========
@@ -83,7 +100,7 @@ set tabstop=4       " An indentation every four columns
 set softtabstop=4   " Let backspace delete indent
 
 " ======= Code Folding ======
-set foldenable      " Auto fold code
+"set foldenable      " Auto fold code
 set foldmethod=indent
 set foldlevel=999
 
@@ -141,8 +158,39 @@ imap jk <esc>
 
 " =============== Speecific Language Settings ==========
 " python
-autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd BufRead *.py nmap <F5> :!python "%"<CR>
 
 " Javascript
-autocmd FileType javascript shiftwidth=2 tabstop=2
+autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
+
+" ================ Plugins =============
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_camel_case_completion = 1
+let g:neocomplcache_enable_underbar_completion = 1
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ }
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neocomplcache_snippets_expand)
+smap <C-k>     <Plug>(neocomplcache_snippets_expand)
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+" Enable omni completion. Not required if they are already set elsewhere in .vimrc
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
