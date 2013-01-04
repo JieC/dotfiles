@@ -20,9 +20,9 @@
 			</item>
 		</menu>
 		<menu id="6" label="Graphics">
-			<item label="Mirage">
+			<item label="GPicView">
 				<action name="Execute">
-					<execute>mirage</execute>
+					<execute>GPicView</execute>
 				</action>
 			</item>
 		</menu>
@@ -34,9 +34,9 @@
 			</item>
 		</menu>
 		<menu id="19" label="File">
-			<item label="ROX">
+			<item label="Thunar">
 				<action name="Execute">
-					<execute>rox</execute>
+					<execute>thunar</execute>
 				</action>
 			</item>
 		</menu>
@@ -44,21 +44,6 @@
 			<item label="LXAppearance">
 				<action name="Execute">
 					<execute>lxappearance</execute>
-				</action>
-			</item>
-			<item label="TintWizard">
-				<action name="Execute">
-					<execute>tintwizard</execute>
-				</action>
-			</item>
-			<item label="OBconf">
-				<action name="Execute">
-					<execute>obconf</execute>
-				</action>
-			</item>
-			<item label="OBmenu">
-				<action name="Execute">
-					<execute>obmenu</execute>
 				</action>
 			</item>
 		</menu>
