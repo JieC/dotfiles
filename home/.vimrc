@@ -167,8 +167,8 @@ imap jk <esc>
 " =============== Speecific Language Settings ==========
 " python
 autocmd BufRead *.py nmap <F5> :!python "%"<CR>
-let $PYTHONHOME='C:\jre\lib\libs\App'
-let $PYTHONPATH='C:\jre\lib\libs\App\Lib'
+"let $PYTHONHOME='path\to\python'
+"let $PYTHONPATH='path\to\python\Lib'
 
 " Javascript
 autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
