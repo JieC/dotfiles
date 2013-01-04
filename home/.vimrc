@@ -4,7 +4,7 @@ set shortmess=atI " Quick start
 " ========== Path Settings ==========
 if has('win32')
     let $VIMFILES=$VIM.'/vimfiles'
-    let $HOME=$VIMFILES
+    "let $HOME=$VIMFILES
 else
     let $VIMFILES=$HOME.'/.vim'
 endif
@@ -28,7 +28,7 @@ endif
 call neobundle#rc($BUNDLE)
 
 " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundleFetch 'https://github.com/Shougo/neobundle.vim'
 
 " My Bundles here:
 NeoBundle 'https://github.com/Shougo/vimproc', {'build' : {'unix': 'make -f make_unix.mak'}}
@@ -41,6 +41,13 @@ NeoBundle 'https://github.com/Shougo/unite.vim'
 NeoBundle 'https://github.com/Shougo/vimfiler'
 NeoBundle 'https://github.com/Shougo/neocomplcache'
 NeoBundle 'https://github.com/Shougo/neosnippet'
+NeoBundle 'https://github.com/scrooloose/syntastic'
+NeoBundle 'https://github.com/sjl/gundo.vim'
+NeoBundle 'https://github.com/scrooloose/nerdcommenter'
+"NeoBundle 'https://github.com/nathanaelkane/vim-indent-guides'
+NeoBundle 'https://github.com/vim-scripts/YankRing.vim'
+NeoBundle 'https://github.com/Raimondi/delimitMate'
+NeoBundle 'https://github.com/tpope/vim-surround'
 
 filetype plugin indent on     " Required!
 
@@ -68,7 +75,7 @@ set number          " SHow line numbers
 set showmatch       " Show matching brackets/parenthesis
 set linespace=0     " No extra spaces between rows
 set nowrap          " No wrap long lines
-set linebreak       " Wrap lines at linebreaks 
+set linebreak       " Wrap lines at linebreaks
 set winminheight=0  " Windows can be 0 line high
 set laststatus=2    " Always show the statusline
 
@@ -123,7 +130,8 @@ set cursorline      " Highlight current line
 
 if has('gui_running')
     if has('win32')
-        set guifont = Envy_Code_R:h11
+        "set guifont = Envy_Code_R:h11
+        set guifont=Consolas:h11
     else
         set guifont=Envy\ Code\ R\ 11
     endif
@@ -159,11 +167,15 @@ imap jk <esc>
 " =============== Speecific Language Settings ==========
 " python
 autocmd BufRead *.py nmap <F5> :!python "%"<CR>
+let $PYTHONHOME='C:\jre\lib\libs\App'
+let $PYTHONPATH='C:\jre\lib\libs\App\Lib'
 
 " Javascript
 autocmd FileType javascript setlocal shiftwidth=4 tabstop=4
 
 " ================ Plugins =============
+" NeoComplCache
+"let g:neobundle#types#git#default_protocol = 'https'
 let g:neocomplcache_enable_at_startup = 1
 let g:neocomplcache_enable_smart_case = 1
 let g:neocomplcache_enable_camel_case_completion = 1
@@ -194,3 +206,15 @@ autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+
+" Neosnippet
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
